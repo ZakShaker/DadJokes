@@ -7,7 +7,7 @@ Android App with 'Dad Jokes' provided by [icanhazdadjokes](https://icanhazdadjok
  - more stuff soon...
 
 ## Resources
- - API by 
+ - API by [icanhazdadjokes](https://icanhazdadjoke.com/api#api-response-format)
  - Icons made by [Freepik](https://www.freepik.com/home) from www.flaticon.com
  
 ## Contact Information
