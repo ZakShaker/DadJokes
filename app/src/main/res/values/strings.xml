@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">DadJokes</string>
+    <string name="title_home">Jokes</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="title_search">Search</string>
+
+
+    <string name="copyright_text">Icons made by Freepik(https://www.freepik.com/home) from www.flaticon.com</string>
+</resources>
