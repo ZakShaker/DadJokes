@@ -1,12 +1,12 @@
 package com.zakshaker.dadjokes.domain.interactors
 
-import androidx.lifecycle.LiveData
 import com.zakshaker.dadjokes.domain.entities.Joke
 import com.zakshaker.dadjokes.repositories.JokesRepository
+import com.zakshaker.dadjokes.repositories.JokesRepositoryMock
+import com.zakshaker.dadjokes.repositories.JokesRepositoryOnline
 
 class JokesInteractor(
-    private val jokesRepository: JokesRepository
+    private val jokesRepository: JokesRepository = JokesRepositoryOnline()
 ) {
-
-    fun loadRandomJoke(): LiveData<Joke> = jokesRepository.getRandomJoke()
+    suspend fun loadRandomJoke(): Joke = jokesRepository.getRandomJoke()
 }
