@@ -1,7 +1,6 @@
 package com.zakshaker.dadjokes
 
 import android.os.Bundle
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -20,11 +19,12 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         val appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_favorites, R.id.navigation_search
+                R.id.navigation_feed, R.id.navigation_favorites, R.id.navigation_search
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         nav_view.apply {
+            // remove icon tint, so the drawables will be used
             itemIconTintList = null
             setupWithNavController(navController)
         }
