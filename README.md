@@ -9,6 +9,10 @@ Android App with 'Dad Jokes' provided by [icanhazdadjokes](https://icanhazdadjok
  - A user would be able to save favorite ones in a local DataBase in the 'Favorites'-tab
  - A user would be able to searcg for jokes with keywords in the 'Search'-tab
 
+## Screenshots
+<img src="https://github.com/ZakShaker/DadJokes/blob/master/screenshots/feed.jpg" alt="drawing" width="200"/> <img src="https://github.com/ZakShaker/DadJokes/blob/master/screenshots/favs.jpg" alt="drawing" width="200"/> <img src="https://github.com/ZakShaker/DadJokes/blob/master/screenshots/search.jpg" alt="drawing" width="200"/>
+
+
 ## Project Plan
  - Use Kotlin-coroutines
  - Custom views
