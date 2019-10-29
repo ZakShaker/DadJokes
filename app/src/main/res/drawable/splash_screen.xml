@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+    <item>
+        <shape>
+            <gradient
+                android:angle="90"
+                android:centerColor="@color/colorPrimary"
+                android:endColor="@color/colorAccent"
+                android:startColor="@color/colorPrimaryDark"
+                android:type="linear" />
+        </shape>
+    </item>
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/dads" />
+    </item>
+</layer-list>
