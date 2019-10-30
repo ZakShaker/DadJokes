@@ -4,8 +4,9 @@
     <string name="title_favorites">Favorites</string>
     <string name="title_search">Search</string>
 
-    <!-- Home -->
+    <!-- Feed -->
     <string name="joke_placeholder">Random joke is:\n%s</string>
+    <string name="feed_btn_next_random_title">[Get next random joke]</string>
 
     <string name="copyright_text">Icons made by Freepik(https://www.freepik.com/home) from www.flaticon.com</string>
 </resources>

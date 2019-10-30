@@ -18,11 +18,20 @@ class FeedFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         feedViewModel = ViewModelProviders.of(this).get(FeedViewModel::class.java)
 
-        feedViewModel.joke.observe(this, Observer {
+        feedViewModel.randomJoke.observe(this, Observer {
             tv_random_joke.text = getString(R.string.joke_placeholder, it.value)
         })
 
-
+        btn_get_random_joke?.setOnClickListener { feedViewModel.onLoadRandomJoke() }
+        feedViewModel.isNextRandomJokeButtonEnabled.observe(this, Observer { isEnabled ->
+            if (isEnabled) {
+                btn_get_random_joke?.visibility = View.VISIBLE
+                pb_loading?.visibility = View.GONE
+            } else {
+                btn_get_random_joke?.visibility = View.GONE
+                pb_loading?.visibility = View.VISIBLE
+            }
+        })
     }
 
 }

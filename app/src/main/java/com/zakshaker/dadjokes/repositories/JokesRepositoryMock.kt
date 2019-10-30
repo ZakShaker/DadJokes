@@ -1,30 +1,21 @@
 package com.zakshaker.dadjokes.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.zakshaker.dadjokes.domain.entities.Joke
 
 class JokesRepositoryMock : JokesRepository {
 
-    override fun getRandomJoke(): LiveData<Joke> = MutableLiveData<Joke>().apply {
-        value = jokes.random()
-    }
+    override suspend fun getRandomJoke(): Joke = jokes.random()
 
-    override fun getTheJoke(id: String): LiveData<Joke> = MutableLiveData<Joke>().apply {
-        value = jokes.random()
-    }
+    override suspend fun getTheJoke(id: String): Joke = jokes.random()
 
-    override fun searchJokes(page: Int, limit: Int, query: String): LiveData<List<Joke>> =
-        MutableLiveData<List<Joke>>().apply {
-            value = listOf(
-                jokes.random(),
-                jokes.random(),
-                jokes.random()
-            )
-        }
+    override suspend fun searchJokes(page: Int, limit: Int, query: String): List<Joke> = listOf(
+        jokes.random(),
+        jokes.random(),
+        jokes.random()
+    )
 
 
-    private val jokes = listOf<Joke>(
+    private val jokes = listOf(
         Joke(
             "1",
             "I'm tired of following my dreams. I'm just going to ask them where they are going and meet up with them later."
