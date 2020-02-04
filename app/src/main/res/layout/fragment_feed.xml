@@ -5,11 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.zakshaker.dadjokes.ui.customviews.BubbleView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:paddingTop="20dp"
+        app:fillColor="@color/colorPrimaryDark"
+        app:fillSrc="@drawable/bubble_tile_1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_random_joke" />
+
     <TextView
         android:id="@+id/tv_random_joke"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_vertical_margin"
+        android:background="@color/colorLightTransparent"
+        android:padding="10dp"
         android:textAlignment="textStart"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -17,16 +28,30 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/joke_placeholder" />
 
+
+    <com.zakshaker.dadjokes.ui.customviews.BubbleView
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:paddingTop="20dp"
+        app:fillColor="@color/colorAccent"
+        app:fillSrc="@drawable/bubble_tile_3"
+        app:layout_constraintBottom_toBottomOf="@id/btn_get_random_joke"
+        app:layout_constraintEnd_toEndOf="@id/btn_get_random_joke"
+        app:layout_constraintStart_toEndOf="@id/btn_get_random_joke"
+        app:layout_constraintTop_toTopOf="@id/btn_get_random_joke" />
+
     <TextView
         android:id="@+id/btn_get_random_joke"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:background="@color/colorLightTransparent"
         android:text="@string/feed_btn_next_random_title"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_random_joke" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_random_joke"
+        app:layout_goneMarginEnd="@dimen/activity_vertical_margin" />
 
     <ProgressBar
         android:id="@+id/pb_loading"
