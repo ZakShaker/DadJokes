@@ -19,10 +19,13 @@ import kotlin.random.Random
  * End points are located on 4 corners of a given rectangle of a canvas.
  * End points are moving on edges of a rectangle
  */
+private const val ANIMATION_DURATION = 2000L
+private const val IMAGE_ROTATION_RANGE = 10
+// Swing factor defines shift of an edge end point between corners
+private const val SWING_FACTOR = 20
+
 class BubbleView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val outerBubbleColorPaint: Paint
-
-    private lateinit var bubbleMaskBitmap: Bitmap
     private var shaderPaint: Paint
 
     init {
@@ -41,10 +44,12 @@ class BubbleView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 Shader.TileMode.REPEAT,
                 Shader.TileMode.REPEAT
             )
+            isAntiAlias = true
         }
 
         outerBubbleColorPaint = Paint().apply {
             color = typedArray.getColor(R.styleable.BubbleView_fillColor, Color.BLACK)
+            isAntiAlias = true
         }
 
         typedArray.recycle()
@@ -71,6 +76,7 @@ class BubbleView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         )
     }
 
+    private lateinit var croppedBitmap: Bitmap
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         // Cropped Image bubble is placed in the center of a view.
         // Thus, control points are placed with padding from view's rectangle
@@ -104,13 +110,14 @@ class BubbleView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         }
 
         // creating bubble path shape mask and shader paint
-        bubbleMaskBitmap =
+        val bubbleMaskBitmap: Bitmap =
             createBitmapMask(
                 bubblePath.formBubblePath(imgCropMaskBubblePoints),
                 outerBubbleColorPaint,
                 measuredWidth,
                 measuredHeight
             )
+        croppedBitmap = cropDrawableWithMask(bubbleMaskBitmap, shaderPaint)
 
         bubbleAnimator = getBubbleAnimator(outerBubblePoints).apply {
             start()
@@ -122,15 +129,15 @@ class BubbleView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         canvas.apply {
             drawPath(bubblePath.formBubblePath(outerBubblePoints), outerBubbleColorPaint)
             drawBitmap(
-                bubbleMaskBitmap,
+                croppedBitmap,
                 canvasMatrix.apply {
                     setRotate(
                         matrixRotation,
-                        bubbleMaskBitmap.width.toFloat() / 2,
-                        bubbleMaskBitmap.height.toFloat() / 2
+                        croppedBitmap.width.toFloat() / 2,
+                        croppedBitmap.height.toFloat() / 2
                     )
                 },
-                shaderPaint
+                null
             )
         }
 
@@ -142,8 +149,8 @@ class BubbleView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         val propertyImageRotationName = "IMAGE_ROTATION"
         val propertyImageRotation = PropertyValuesHolder.ofFloat(
             propertyImageRotationName,
-            -Random.nextInt(0, 5).toFloat(),
-            Random.nextInt(0, 5).toFloat()
+            -Random.nextInt(0, IMAGE_ROTATION_RANGE / 2).toFloat(),
+            Random.nextInt(0, IMAGE_ROTATION_RANGE / 2).toFloat()
         )
 
         val propertyLeftEdgeEndPointName = "LEFT_EDGE_END_POINT_PROPERTY"
@@ -180,7 +187,7 @@ class BubbleView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                 propertyRightEdgeEndPoint,
                 propertyBottomEdgeEndPoint
             )
-            duration = 20000
+            duration = ANIMATION_DURATION
             repeatCount = ValueAnimator.INFINITE
             repeatMode = ValueAnimator.REVERSE
             interpolator = AnticipateInterpolator()
@@ -217,15 +224,13 @@ class BubbleView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         val topEdgeEndPoint: PointF = PointF(),
         val rightEdgeEndPoint: PointF = PointF(),
         val bottomEdgeEndPoint: PointF = PointF(),
-        // Swing factor defines shift of an edge end point between corners
-        private val randomSwingFactor: Int = 50,
         val definedRandomNumber1: Float = 0.5f + Random.nextInt(
             0,
-            randomSwingFactor
+            SWING_FACTOR
         ).toFloat() / 100,
         val definedRandomNumber2: Float = 0.5f + Random.nextInt(
             0,
-            randomSwingFactor
+            SWING_FACTOR
         ).toFloat() / 100
     ) {
         fun getWidth() = topRightControlPoint.x - topLeftControlPoint.x
@@ -272,5 +277,12 @@ class BubbleView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         val maskCanvas = Canvas(mask)
         maskCanvas.drawPath(path, paint)
         return mask
+    }
+
+    private fun cropDrawableWithMask(bitmapMask: Bitmap, shaderPaint: Paint): Bitmap {
+        val crop = Bitmap.createBitmap(bitmapMask.width, bitmapMask.height, Bitmap.Config.ARGB_8888)
+        val cropCanvas = Canvas(crop)
+        cropCanvas.drawBitmap(bitmapMask, 0f, 0f, shaderPaint)
+        return crop
     }
 }
