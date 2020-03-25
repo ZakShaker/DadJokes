@@ -1,2 +1,7 @@
 include ':app'
 rootProject.name='DadJokes'
+include ':db'
+include ':api'
+include ':repository'
+include ':repository_impl'
+include ':core'
