@@ -15,7 +15,7 @@ class JokesRepository(
     override suspend fun getRandomJoke(): JokeModel = jokesWebservice.getRandomJoke().toModel()
 
     override suspend fun saveJokeToFavorites(joke: JokeModel)
-            : Boolean = jokesDao.insertAll(joke.toEntity())
+            : Boolean = jokesDao.insertAll(joke.toEntity()).filterNot { it == -1L }.isNotEmpty()
 
     override suspend fun getFavoriteJokes()
             : List<JokeModel> =
@@ -31,5 +31,6 @@ class JokesRepository(
     private fun JokeEntity.toModel() = JokeModel(id, text)
     private fun JokeModel.toEntity() =
         JokeEntity(id, text)
+
     private fun Joke.toModel() = JokeModel(id, text)
 }

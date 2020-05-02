@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
     compileSdkVersion 28
@@ -34,9 +35,17 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$junit_test_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
 
+    // Layouts
+    implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
+
+    // Language
     implementation "org.koin:koin-core:$koin_version"
     testImplementation "org.koin:koin-test:$koin_version"
 
-    implementation project(":repository_impl")
-    api project(":repository")
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+
+
+    implementation project(":core")
 }

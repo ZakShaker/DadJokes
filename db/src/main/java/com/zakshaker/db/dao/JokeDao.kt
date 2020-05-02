@@ -19,7 +19,7 @@ interface JokeDao {
     suspend fun findByText(text: String): List<JokeEntity>
 
     @Insert
-    suspend fun insertAll(vararg jokes: JokeEntity): Boolean
+    suspend fun insertAll(vararg jokes: JokeEntity): List<Long>
 
     @Query(
         "DELETE FROM favorite_jokes WHERE id IN (:jokeIds)"
