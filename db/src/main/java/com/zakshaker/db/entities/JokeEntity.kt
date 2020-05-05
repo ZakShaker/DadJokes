@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 )
 data class JokeEntity(
     @PrimaryKey
-    var id: Int,
+    var id: String,
     @ColumnInfo(name = "text")
     val text: String
 )

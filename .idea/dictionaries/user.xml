@@ -4,6 +4,7 @@
       <w>coroutines</w>
       <w>interactor</w>
       <w>koin</w>
+      <w>mvvm</w>
       <w>stetho</w>
     </words>
   </dictionary>

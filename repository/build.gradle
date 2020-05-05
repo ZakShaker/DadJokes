@@ -3,8 +3,8 @@ apply plugin: 'kotlin'
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.5'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxcoroutines_version"
 }
 
-sourceCompatibility = "7"
-targetCompatibility = "7"
+sourceCompatibility =  JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8

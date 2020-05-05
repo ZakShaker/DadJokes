@@ -34,9 +34,16 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$junit_test_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
 
+    // Language
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxcoroutines_version"
+
+    // UI
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+
     implementation "org.koin:koin-core:$koin_version"
     testImplementation "org.koin:koin-test:$koin_version"
 
     implementation project(":repository_impl")
     api project(":repository")
+
 }

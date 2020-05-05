@@ -5,14 +5,34 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_state"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Hello from Home"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_feed"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_state" />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/btn_favorites"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="false"
+        app:lottie_loop="false"
+        app:lottie_rawRes="@raw/star_anim" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

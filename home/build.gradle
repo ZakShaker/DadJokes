@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
@@ -35,16 +36,38 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$junit_test_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
 
+    // UI
     // Layouts
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayout_version"
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+    // Animation
+    implementation "com.airbnb.android:lottie:$lottie_version"
 
     // Language
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinxcoroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinxcoroutines_version"
+
+    // DI
+    // Koin AndroidX Scope feature
     implementation "org.koin:koin-core:$koin_version"
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    // Koin AndroidX ViewModel feature
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    // Koin AndroidX Fragment
+    implementation "org.koin:koin-androidx-fragment:$koin_version"
+
     testImplementation "org.koin:koin-test:$koin_version"
+
 
     // Navigation
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+
+    // MVVM
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
 
     implementation project(":core")

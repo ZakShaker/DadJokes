@@ -1,5 +1,6 @@
 package com.zakshaker.api
 
+import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.GsonBuilder
 import com.zakshaker.api.webservices.JokesWebservice
 import okhttp3.OkHttpClient
@@ -37,9 +38,16 @@ object WebservicesApi {
 
 
     private val defaultOkHttpBuilder: OkHttpClient.Builder by lazy {
-        OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
+        if (BuildConfig.DEBUG)
+            OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
+                .addNetworkInterceptor(StethoInterceptor())
+        else
+            OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .writeTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(30, TimeUnit.SECONDS)
     }
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    // Feed
+    // Joke
+    <string name="feed_joke_avatar_picture">Avatar picture</string>
+
+</resources>
