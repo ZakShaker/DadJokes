@@ -27,8 +27,8 @@ class HomeViewModel(
     private val _homeState = MutableLiveData<HomeState>()
 
     private val jokesStack = Stack<JokeModel>()
-    private val _cachedJokes = MutableLiveData<List<JokeModel>>().apply {
-        value = jokesStack.toList()
+    private val _cachedJokes = MutableLiveData<Stack<JokeModel>>().apply {
+        value = jokesStack
     }
 
     init {
@@ -40,7 +40,7 @@ class HomeViewModel(
     val homeState: LiveData<HomeState> = _homeState
 
     // Observe live stream of jokes
-    val jokes: LiveData<List<JokeModel>> = _cachedJokes
+    val jokes: LiveData<Stack<JokeModel>> = _cachedJokes
 
     private var loadingJokesJob: Job? = null
     fun onRefresh() {
@@ -53,7 +53,6 @@ class HomeViewModel(
     private suspend fun refreshJokes() {
         withContext(Dispatchers.Main) {
             _homeState.value = HomeState.Loading
-            _cachedJokes.value = emptyList()
 
             updateJokes()
         }
@@ -65,7 +64,7 @@ class HomeViewModel(
     private suspend fun updateJokes() {
         uploadRandomJoke()?.let {
             jokesStack.add(it)
-            _cachedJokes.value = jokesStack.toList()
+            _cachedJokes.value = jokesStack
             _homeState.value = HomeState.Loaded
         } ?: run {
             _homeState.value = HomeState.Offline
