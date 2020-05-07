@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zakshaker.core.BaseFragment
 import com.zakshaker.core.SimpleRecyclerAdapter
+import com.zakshaker.core.VerticalSpaceItemDecoration
 import com.zakshaker.model.JokeModel
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_feed_joke.view.*
@@ -42,7 +43,7 @@ class HomeFragment : BaseFragment() {
             .observe(
                 viewLifecycleOwner,
                 Observer {
-                    jokesAdapter.setItems(it)
+                    jokesAdapter.setItems(it.toList())
                 }
             )
 
@@ -63,6 +64,8 @@ class HomeFragment : BaseFragment() {
                     }
                 }
             ).also { jokesAdapter = it }
+
+            addItemDecoration(VerticalSpaceItemDecoration())
         }
     }
 

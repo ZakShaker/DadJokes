@@ -6,12 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
 
 
 open class SimpleRecyclerAdapter<I>(
     @LayoutRes private val itemLayout: Int,
-    defaultItems: Stack<I> = Stack<I>(),
+    defaultItems: List<I> = emptyList(),
     var onItemClicked: ((item: I) -> Unit)? = null,
     private val attachView: (view: View, item: I, position: Int) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -19,15 +18,18 @@ open class SimpleRecyclerAdapter<I>(
 
     constructor(
         @LayoutRes itemLayout: Int,
-        defaultItems: Stack<I> = Stack<I>(),
+        defaultItems: List<I> = emptyList(),
         onItemClicked: ((item: I) -> Unit)? = null,
         attachView: (view: View, item: I) -> Unit
     ) : this(itemLayout, defaultItems, onItemClicked, { v, i, _ -> attachView(v, i) })
 
-    var itemsList = Stack<I>().apply { addAll(defaultItems) }
+    val itemsList = ArrayList<I>(defaultItems.size).apply { addAll(defaultItems) }
 
-    fun setItems(items: Stack<I>) {
-        itemsList = items
+    fun setItems(items: List<I>) {
+        itemsList.apply {
+            clear()
+            addAll(items)
+        }
         notifyDataSetChanged()
     }
 

@@ -26,8 +26,8 @@ class HomeViewModel(
 
     private val _homeState = MutableLiveData<HomeState>()
 
-    private val jokesStack = Stack<JokeModel>()
-    private val _cachedJokes = MutableLiveData<Stack<JokeModel>>().apply {
+    private val jokesStack = ArrayDeque<JokeModel>()
+    private val _cachedJokes = MutableLiveData<ArrayDeque<JokeModel>>().apply {
         value = jokesStack
     }
 
@@ -40,7 +40,7 @@ class HomeViewModel(
     val homeState: LiveData<HomeState> = _homeState
 
     // Observe live stream of jokes
-    val jokes: LiveData<Stack<JokeModel>> = _cachedJokes
+    val jokes: LiveData<ArrayDeque<JokeModel>> = _cachedJokes
 
     private var loadingJokesJob: Job? = null
     fun onRefresh() {
