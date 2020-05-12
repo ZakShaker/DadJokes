@@ -10,7 +10,7 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:contentDescription="@string/feed_joke_avatar_picture"
-        android:src="@drawable/user_pic"
+        android:src="@drawable/ic_dad_4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -18,7 +18,6 @@
         android:id="@+id/tv_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_icon"

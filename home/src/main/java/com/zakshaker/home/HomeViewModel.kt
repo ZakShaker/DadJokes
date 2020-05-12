@@ -5,14 +5,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.zakshaker.home.feed.model.FeedElement
+import com.zakshaker.home.feed.model.LeftJoke
+import com.zakshaker.home.feed.model.RightJoke
+import com.zakshaker.home.feed.model.WelcomeMessage
 import com.zakshaker.model.JokeModel
 import com.zakshaker.repository.JokesRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
+import kotlin.random.Random
 
+@ExperimentalStdlibApi
 class HomeViewModel(
     private val jokesRepository: JokesRepository
 ) : ViewModel() {
@@ -26,9 +31,9 @@ class HomeViewModel(
 
     private val _homeState = MutableLiveData<HomeState>()
 
-    private val jokesStack = ArrayDeque<JokeModel>()
-    private val _cachedJokes = MutableLiveData<ArrayDeque<JokeModel>>().apply {
-        value = jokesStack
+    private val cachedFeed = ArrayDeque<FeedElement>().apply { add(WelcomeMessage()) }
+    private val _cachedFeed = MutableLiveData<ArrayDeque<FeedElement>>().apply {
+        value = cachedFeed
     }
 
     init {
@@ -40,7 +45,7 @@ class HomeViewModel(
     val homeState: LiveData<HomeState> = _homeState
 
     // Observe live stream of jokes
-    val jokes: LiveData<ArrayDeque<JokeModel>> = _cachedJokes
+    val feed: LiveData<ArrayDeque<FeedElement>> = _cachedFeed
 
     private var loadingJokesJob: Job? = null
     fun onRefresh() {
@@ -63,8 +68,12 @@ class HomeViewModel(
      */
     private suspend fun updateJokes() {
         uploadRandomJoke()?.let {
-            jokesStack.add(it)
-            _cachedJokes.value = jokesStack
+            val isRight = Random.nextBoolean()
+            cachedFeed.addFirst(
+                if (isRight) RightJoke(it) else LeftJoke(it)
+            )
+
+            _cachedFeed.value = cachedFeed
             _homeState.value = HomeState.Loaded
         } ?: run {
             _homeState.value = HomeState.Offline

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     // Feed
-    // Joke
     <string name="feed_joke_avatar_picture">Avatar picture</string>
-
+    <string name="feed_welcome">This is <annotation key="rounded">The Feed</annotation> of jokes. Feel free to press the <annotation key="rounded">⭐</annotation> to place the joke in your <b>favorites</b>.</string>
+    <string name="feed_more_jokes_btn"><annotation key="rounded">☝️ more jokes ☝️️</annotation></string>
 </resources>

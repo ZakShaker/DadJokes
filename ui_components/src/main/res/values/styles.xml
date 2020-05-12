@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/laila</item>
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
+
+    <style name="Widget.RoundedBackground" parent="android:Widget" />
+
+    <style name="Widget.RoundedBackground.SampleTextView">
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+        <item name="android:padding">4dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:includeFontPadding">true</item>
+        <item name="roundedTextHorizontalPadding">2dp</item>
+        <item name="roundedTextVerticalPadding">2dp</item>
+    </style>
+
+    <style name="Widget.RoundedBackground.Divider">
+        <item name="android:background">@color/roundedTextBg</item>
+        <item name="android:padding">2dp</item>
+    </style>
+
+    <style name="RoundedBgTextView" parent="@android:style/Widget.TextView">
+        <item name="roundedTextHorizontalPadding">2dp</item>
+        <item name="roundedTextVerticalPadding">0dp</item>
+        <item name="roundedTextDrawable">@drawable/rounded_text_bg</item>
+        <item name="roundedTextDrawableLeft">@drawable/rounded_text_bg_left</item>
+        <item name="roundedTextDrawableMid">@drawable/rounded_text_bg_mid</item>
+        <item name="roundedTextDrawableRight">@drawable/rounded_text_bg_right</item>
+    </style>
+
+</resources>

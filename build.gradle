@@ -11,6 +11,7 @@ buildscript {
 
         // UI
         lottie_version = "3.4.0"
+        adapterdelegates_version = "4.3.0"
 
         // Navigation
         navigation_version = "2.3.0-alpha06"

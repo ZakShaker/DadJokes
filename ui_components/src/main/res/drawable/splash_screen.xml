@@ -15,6 +15,6 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/dads" />
+            android:src="@drawable/friends" />
     </item>
 </layer-list>

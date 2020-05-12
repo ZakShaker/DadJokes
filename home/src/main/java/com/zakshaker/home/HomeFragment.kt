@@ -4,18 +4,21 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
 import com.zakshaker.core.BaseFragment
-import com.zakshaker.core.SimpleRecyclerAdapter
 import com.zakshaker.core.VerticalSpaceItemDecoration
-import com.zakshaker.model.JokeModel
+import com.zakshaker.home.feed.adapter.FeedAdapter
+import com.zakshaker.home.feed.adapter.leftJokeAdapterDelegate
+import com.zakshaker.home.feed.adapter.rightJokeAdapterDelegate
+import com.zakshaker.home.feed.adapter.welcomeMessageAdapterDelegate
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.item_feed_joke.view.*
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
+@ExperimentalStdlibApi
 class HomeFragment : BaseFragment() {
     override val layoutRes: Int = R.layout.fragment_home
     override var koinModules: List<Module>? = listOf(
@@ -39,33 +42,51 @@ class HomeFragment : BaseFragment() {
                 }
             )
 
-        homeViewModel.jokes
+        homeViewModel.feed
             .observe(
                 viewLifecycleOwner,
                 Observer {
-                    jokesAdapter.setItems(it.toList())
+                    jokesAdapter.items = it.toList()
+                    btn_more_jokes?.apply {
+                        visibility = View.VISIBLE
+                        text = getText(R.string.feed_more_jokes_btn)
+                    }
+                    scrollFeedToPosition(0)
                 }
             )
 
-        btn_favorites?.setOnClickListener {
+        btn_more_jokes?.setOnClickListener {
             homeViewModel.onRefresh()
         }
     }
 
-    private lateinit var jokesAdapter: SimpleRecyclerAdapter<JokeModel>
+    private lateinit var jokesAdapter: FeedAdapter
     private fun initJokesFeed() {
         rv_feed?.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = SimpleRecyclerAdapter<JokeModel>(
-                R.layout.item_feed_joke,
-                attachView = { view, item ->
-                    view.apply {
-                        tv_text?.text = item.text
-                    }
-                }
-            ).also { jokesAdapter = it }
+            adapter = FeedAdapter(
+                welcomeMessageAdapterDelegate(),
+                rightJokeAdapterDelegate(),
+                leftJokeAdapterDelegate()
+            ).also {
+                jokesAdapter = it
+            }
 
             addItemDecoration(VerticalSpaceItemDecoration())
+        }
+    }
+
+    private fun scrollFeedToPosition(position: Int) {
+        rv_feed?.apply {
+            layoutManager?.startSmoothScroll(
+                feedScroller.apply { targetPosition = position }
+            )
+        }
+    }
+
+    private val feedScroller: LinearSmoothScroller by lazy {
+        object : LinearSmoothScroller(context) {
+            override fun getVerticalSnapPreference(): Int = SNAP_TO_END
         }
     }
 
