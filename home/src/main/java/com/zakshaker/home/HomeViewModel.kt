@@ -12,7 +12,7 @@ import com.zakshaker.home.feed.model.WelcomeMessage
 import com.zakshaker.model.JokeModel
 import com.zakshaker.repository.JokesRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.random.Random
@@ -22,61 +22,42 @@ class HomeViewModel(
     private val jokesRepository: JokesRepository
 ) : ViewModel() {
 
-    enum class HomeState {
-        Loading,
+    enum class LoadingState {
         Loaded,
-        FailedToRefresh,
-        Offline
+        Loading
     }
 
-    private val _homeState = MutableLiveData<HomeState>()
+    private var _loadingState = MutableLiveData<LoadingState>()
+    var loadingState: LiveData<LoadingState> = _loadingState
 
-    private val cachedFeed = ArrayDeque<FeedElement>().apply { add(WelcomeMessage()) }
+    private
+    val feedDeque = ArrayDeque<FeedElement>().apply { add(WelcomeMessage()) }
     private val _cachedFeed = MutableLiveData<ArrayDeque<FeedElement>>().apply {
-        value = cachedFeed
+        value = feedDeque
     }
-
-    init {
-        onRefresh()
-    }
-
-
-    // Observe home state
-    val homeState: LiveData<HomeState> = _homeState
-
-    // Observe live stream of jokes
     val feed: LiveData<ArrayDeque<FeedElement>> = _cachedFeed
 
-    private var loadingJokesJob: Job? = null
-    fun onRefresh() {
-        loadingJokesJob?.cancel()
-        loadingJokesJob = viewModelScope.launch {
-            refreshJokes()
+    init {
+        viewModelScope.launch {
+            receiveJokes()
         }
     }
 
-    private suspend fun refreshJokes() {
-        withContext(Dispatchers.Main) {
-            _homeState.value = HomeState.Loading
+    private suspend fun receiveJokes() {
+        while (true) {
+            _loadingState.value = LoadingState.Loading
 
-            updateJokes()
-        }
-    }
+            val freshJoke = uploadRandomJoke()
 
-    /**
-     * Uploads some new joke to the current list of jokes
-     */
-    private suspend fun updateJokes() {
-        uploadRandomJoke()?.let {
-            val isRight = Random.nextBoolean()
-            cachedFeed.addFirst(
-                if (isRight) RightJoke(it) else LeftJoke(it)
-            )
+            _loadingState.value = LoadingState.Loaded
 
-            _cachedFeed.value = cachedFeed
-            _homeState.value = HomeState.Loaded
-        } ?: run {
-            _homeState.value = HomeState.Offline
+            if (freshJoke != null)
+                _cachedFeed.value = feedDeque.apply {
+                    addFirst(
+                        if (Random.nextBoolean()) RightJoke(freshJoke) else LeftJoke(freshJoke)
+                    )
+                }
+            delay(1000L * Random.nextInt(4, 10))
         }
     }
 

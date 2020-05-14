@@ -33,12 +33,15 @@ class HomeFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initJokesFeed()
-
-        homeViewModel.homeState
+        homeViewModel.loadingState
             .observe(
                 viewLifecycleOwner,
                 Observer {
-                    tv_state?.text = it.name
+                    if (it == HomeViewModel.LoadingState.Loading) {
+                        pb_loading?.visibility = View.VISIBLE
+                    } else {
+                        pb_loading?.visibility = View.GONE
+                    }
                 }
             )
 
@@ -47,23 +50,19 @@ class HomeFragment : BaseFragment() {
                 viewLifecycleOwner,
                 Observer {
                     jokesAdapter.items = it.toList()
-                    btn_more_jokes?.apply {
-                        visibility = View.VISIBLE
-                        text = getText(R.string.feed_more_jokes_btn)
-                    }
-                    scrollFeedToPosition(0)
+                    showMoreJokesButton()
                 }
             )
 
-        btn_more_jokes?.setOnClickListener {
-            homeViewModel.onRefresh()
-        }
+        btn_more_jokes?.visibility = View.GONE
     }
 
     private lateinit var jokesAdapter: FeedAdapter
+    private lateinit var jokesLayoutManager: LinearLayoutManager
     private fun initJokesFeed() {
         rv_feed?.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+                .also { jokesLayoutManager = it }
             adapter = FeedAdapter(
                 welcomeMessageAdapterDelegate(),
                 rightJokeAdapterDelegate(),
@@ -88,6 +87,22 @@ class HomeFragment : BaseFragment() {
         object : LinearSmoothScroller(context) {
             override fun getVerticalSnapPreference(): Int = SNAP_TO_END
         }
+    }
+
+    private fun showMoreJokesButton() {
+        if (jokesLayoutManager.findFirstVisibleItemPosition() == 0)
+            btn_more_jokes?.visibility = View.GONE
+        else
+            if (btn_more_jokes?.visibility == View.GONE)
+                btn_more_jokes?.apply {
+                    visibility = View.VISIBLE
+                    text = getText(R.string.feed_more_jokes_btn)
+                    setOnClickListener {
+                        scrollFeedToPosition(0)
+                        visibility = View.GONE
+                    }
+                }
+
     }
 
 }
