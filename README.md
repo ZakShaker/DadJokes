@@ -30,6 +30,7 @@ Android App with 'Dad Jokes' provided by [icanhazdadjokes](https://icanhazdadjok
 ## Resources
  - [Custom TextView Spannables](https://github.com/googlearchive/android-text/tree/2831d91984f3e66104212be96aa9b1aba1c718ca/RoundedBackground-Kotlin)
  - [RecyclerView Adapter Delegates](https://github.com/sockeqwe/AdapterDelegates)
+ - [Lottie Animation](https://airbnb.io/lottie/)
  - API by [icanhazdadjokes](https://icanhazdadjoke.com/api#api-response-format)
  - Icons made by [Freepik](https://www.freepik.com/home) from www.flaticon.com
  - Goofy banana lottie-character [Victor Del Bono](https://lottiefiles.com/victordelbono), [behance](https://www.behance.net/victordelbono)
